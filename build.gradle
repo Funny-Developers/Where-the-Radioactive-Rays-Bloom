@@ -20,6 +20,7 @@ repositories {
 dependencies {
     implementation platform('org.lwjgl:lwjgl-bom:3.3.0')
     implementation 'io.github.over-run:glutils:1.4.0-SNAPSHOT'
+    implementation 'org.lwjgl:lwjgl-openal:'
     compileOnly 'org.jetbrains:annotations:22.0.0'
     runtimeOnly 'org.lwjgl:lwjgl::natives-windows'
     runtimeOnly 'org.lwjgl:lwjgl-glfw::natives-windows'
