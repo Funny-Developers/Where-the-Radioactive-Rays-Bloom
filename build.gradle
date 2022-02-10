@@ -1,42 +1,56 @@
 plugins {
     id 'java'
+    id 'idea'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
+
+group 'org.funnydevelopers'
+archivesBaseName = 'mvzje'
+version '0.1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    // temporary maven repository
+    maven { url 'https://s01.oss.sonatype.org/content/repositories/releases' }
+    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots' }
 }
 
 dependencies {
     implementation platform('org.lwjgl:lwjgl-bom:3.3.0')
+    implementation 'io.github.over-run:glutils:1.4.0-SNAPSHOT'
+    compileOnly 'org.jetbrains:annotations:22.0.0'
+    runtimeOnly 'org.lwjgl:lwjgl::natives-windows'
+    runtimeOnly 'org.lwjgl:lwjgl-glfw::natives-windows'
+    runtimeOnly 'org.lwjgl:lwjgl-opengl::natives-windows'
+    runtimeOnly 'org.lwjgl:lwjgl-stb::natives-windows'
+}
 
-    implementation 'org.lwjgl:lwjgl'
-    implementation 'org.lwjgl:lwjgl-glfw'
-    implementation "org.lwjgl:lwjgl-jemalloc"
-    implementation 'org.lwjgl:lwjgl-opengl'
-    implementation 'org.lwjgl:lwjgl-stb'
-    implementation 'org.joml:joml:1.10.3'
-    implementation 'it.unimi.dsi:fastutil:8.5.6'
-    implementation 'com.google.code.gson:gson:2.8.9'
+tasks.withType(JavaCompile) {
+    options.encoding 'UTF-8'
+}
 
-    def nativeAttrib = [
-            'linux-arm32', 'linux-arm64', 'linux',
-            'macos-arm64', 'macos',
-            'windows-arm64', 'windows-x86', 'windows'
-    ]
-    for (def attrib : nativeAttrib) {
-        runtimeOnly "org.lwjgl:lwjgl::natives-$attrib"
-        runtimeOnly "org.lwjgl:lwjgl-jemalloc::natives-$attrib"
-        runtimeOnly "org.lwjgl:lwjgl-glfw::natives-$attrib"
-        runtimeOnly "org.lwjgl:lwjgl-opengl::natives-$attrib"
-        runtimeOnly "org.lwjgl:lwjgl-stb::natives-$attrib"
+jar {
+    from 'LICENSE'
+    manifest {
+        attributes 'Main-Class': 'org.funnydevelopers.wtrrb.Main',
+                'Specification-Title': archiveBaseName,
+                'Specification-Vendor': 'Funny Developers',
+                'Specification-Version': '0',
+                'Implementation-Title': 'Where the Radioactive Rays Bloom',
+                'Implementation-Vendor': 'Funny Developers',
+                'Implementation-Version': archiveVersion
     }
-
-    compileOnly 'org.jetbrains:annotations:23.0.0'
 }
 
-test {
-
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set 'sources'
+    from sourceSets.main.allSource, 'LICENSE'
 }
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set 'javadoc'
+    from javadoc, 'LICENSE'
+}
+
+idea.module.inheritOutputDirs = true
