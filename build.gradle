@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'idea'
+    id 'application'
 }
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
@@ -54,3 +55,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 idea.module.inheritOutputDirs = true
+
+application{
+    mainClass = 'org.funnydevelopers.wtrrb.Main'
+}
