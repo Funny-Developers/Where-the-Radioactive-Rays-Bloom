@@ -1,5 +1,5 @@
 # Where the Radioactive Rays Bloom
-A galgame of my science fiction
+A galgame of crazy_piggy_'s science fiction
 
 Developed with JetBrain IDEA
 
